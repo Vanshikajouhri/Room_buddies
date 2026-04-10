@@ -1,0 +1,366 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --coral:#D85A30;--coral-light:#FAECE7;--coral-mid:#F0997B;
+    --navy:#0C2340;--navy-mid:#185FA5;
+    --teal:#1D9E75;--teal-light:#E1F5EE;
+    --amber:#BA7517;--amber-light:#FAEEDA;
+    --red:#E24B4A;--red-light:#FCEBEB;
+    --text:#1a1a1a;--muted:#666;--border:#e0ddd8;--bg:#faf9f7;--surface:#fff;
+  }
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  .screen{display:none;min-height:100vh;padding:2rem 1rem}
+  .screen.active{display:flex;flex-direction:column;align-items:center}
+
+  /* LANDING */
+  #s-landing{background:var(--navy);justify-content:center;text-align:center;gap:1.5rem}
+  .logo{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:700;color:#fff;letter-spacing:-1px}
+  .logo span{color:var(--coral-mid)}
+  .tagline{color:#a0b4c8;font-size:1rem;max-width:320px;line-height:1.6}
+  .btn-primary{background:var(--coral);color:#fff;border:none;padding:.85rem 2.4rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;transition:transform .15s,opacity .15s}
+  .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+  .btn-secondary{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3);padding:.75rem 2rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.9rem;cursor:pointer;transition:border-color .15s}
+  .btn-secondary:hover{border-color:rgba(255,255,255,.7)}
+  .btn-row{display:flex;flex-direction:column;gap:.75rem;align-items:center}
+  .landing-dots{display:flex;gap:8px;justify-content:center}
+  .ldot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2)}
+  .ldot.a{background:var(--coral-mid)}
+
+  /* SIGNUP */
+  #s-signup{justify-content:flex-start;padding-top:3rem}
+  .form-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:2rem;width:100%;max-width:420px}
+  .form-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:.35rem}
+  .form-sub{color:var(--muted);font-size:.88rem;margin-bottom:1.5rem}
+  .field{margin-bottom:1rem}
+  .field label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:.35rem;font-weight:500}
+  .field input, .field select{width:100%;padding:.7rem .9rem;border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;background:var(--surface);color:var(--text);transition:border .15s}
+  .field input:focus, .field select:focus{border-color:var(--coral)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  .signup-foot{text-align:center;margin-top:1rem;font-size:.82rem;color:var(--muted)}
+  .signup-foot a{color:var(--coral);cursor:pointer;text-decoration:none}
+
+  /* QUIZ */
+  #s-quiz{justify-content:flex-start;padding-top:2rem}
+  .quiz-wrap{width:100%;max-width:500px}
+  .progress-bar-bg{background:var(--border);border-radius:50px;height:6px;margin-bottom:2rem;overflow:hidden}
+  .progress-bar-fill{background:var(--coral);height:100%;border-radius:50px;transition:width .4s ease}
+  .q-section-label{font-size:.75rem;font-weight:500;color:var(--coral);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+  .q-text{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;line-height:1.4}
+  .options-grid{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem}
+  .opt{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;cursor:pointer;font-size:.93rem;transition:all .15s;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif}
+  .opt:hover{border-color:var(--coral);background:var(--coral-light)}
+  .opt.selected{border-color:var(--coral);background:var(--coral-light);color:var(--coral)}
+  .scale-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+  .scale-btn{flex:1;min-width:48px;padding:.7rem .4rem;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.9rem;text-align:center;background:var(--surface);color:var(--text);transition:all .15s}
+  .scale-btn:hover{border-color:var(--coral);background:var(--coral-light)}
+  .scale-btn.selected{border-color:var(--coral);background:var(--coral-light);color:var(--coral)}
+  .scale-labels{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-top:.3rem;margin-bottom:1.5rem}
+  .nav-row{display:flex;justify-content:space-between;align-items:center;gap:.75rem}
+  .btn-back{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:.7rem 1.4rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.9rem;cursor:pointer}
+  .btn-next{background:var(--coral);color:#fff;border:none;padding:.7rem 1.8rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;margin-left:auto;transition:opacity .15s}
+  .btn-next:disabled{opacity:.4;cursor:not-allowed}
+  .q-count{font-size:.82rem;color:var(--muted)}
+
+  /* MATCHES */
+  #s-matches{justify-content:flex-start;padding-top:2rem}
+  .matches-wrap{width:100%;max-width:500px}
+  .matches-header{margin-bottom:1.5rem}
+  .matches-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700}
+  .matches-sub{color:var(--muted);font-size:.88rem;margin-top:.3rem}
+  .match-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;margin-bottom:.85rem;cursor:pointer;transition:border-color .2s}
+  .match-card:hover{border-color:var(--coral)}
+  .match-top{display:flex;align-items:center;gap:.85rem;margin-bottom.85rem}
+  .avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;flex-shrink:0}
+  .match-info{flex:1}
+  .match-name{font-weight:500;font-size:1rem}
+  .match-meta{font-size:.8rem;color:var(--muted);margin-top:2px}
+  .score-badge{font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;flex-shrink:0}
+  .score-bar-bg{background:var(--border);border-radius:50px;height:5px;margin-top:.75rem;overflow:hidden}
+  .score-bar-fill{height:100%;border-radius:50px}
+  .tags-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.75rem}
+  .tag{font-size:.72rem;padding:.25rem .65rem;border-radius:50px;font-weight:500}
+  .tag-match{background:var(--teal-light);color:#0F6E56}
+  .tag-mismatch{background:var(--red-light);color:#A32D2D}
+  .tag-ok{background:var(--amber-light);color:var(--amber)}
+
+  /* DETAIL */
+  #s-detail{justify-content:flex-start;padding-top:2rem}
+  .detail-wrap{width:100%;max-width:500px}
+  .detail-hero{background:var(--navy);border-radius:16px;padding:1.75rem;margin-bottom:1rem;text-align:center;color:#fff}
+  .detail-avatar{width:72px;height:72px;border-radius:50%;margin:0 auto .75rem;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:1.5rem}
+  .detail-name{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700}
+  .detail-meta{color:#a0b4c8;font-size:.85rem;margin-top:.25rem}
+  .big-score{font-family:'Syne',sans-serif;font-size:3rem;font-weight:700;margin:.75rem 0 .25rem;line-height:1}
+  .score-label{font-size:.78rem;color:#a0b4c8;letter-spacing:.06em;text-transform:uppercase}
+  .section-card{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:1.1rem 1.25rem;margin-bottom:.75rem}
+  .section-head{font-size:.75rem;font-weight:500;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:.85rem}
+  .cat-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.65rem}
+  .cat-label{font-size:.88rem;flex:1;color:var(--text)}
+  .cat-bar-bg{width:80px;background:var(--border);border-radius:50px;height:6px;overflow:hidden}
+  .cat-bar-fill{height:100%;border-radius:50px;transition:width .5s}
+  .cat-pct{font-size:.82rem;font-weight:500;min-width:32px;text-align:right}
+  .mismatch-item{display:flex;align-items:flex-start;gap:.65rem;margin-bottom:.65rem;font-size:.88rem}
+  .mismatch-dot{width:7px;height:7px;border-radius:50%;background:var(--red);margin-top:.35rem;flex-shrink:0}
+  .mismatch-text{color:var(--text);line-height:1.5}
+  .mismatch-sub{color:var(--muted);font-size:.8rem}
+  .back-link{display:flex;align-items:center;gap:.4rem;color:var(--muted);font-size:.87rem;cursor:pointer;margin-bottom:1rem}
+  .connect-btn{width:100%;background:var(--coral);color:#fff;border:none;padding:1rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;margin-top:.5rem;transition:opacity .15s}
+  .connect-btn:hover{opacity:.9}
+</style>
+
+<!-- LANDING -->
+<div id="s-landing" class="screen active">
+  <div class="landing-dots" style="margin-bottom:.5rem">
+    <div class="ldot a"></div><div class="ldot"></div><div class="ldot"></div>
+  </div>
+  <div class="logo">Room<span>Buddies</span></div>
+  <p class="tagline">Find a roommate who actually matches your lifestyle — not just your budget.</p>
+  <div class="btn-row">
+    <button class="btn-primary" onclick="show('s-signup')">Find my room buddy</button>
+    <button class="btn-secondary" onclick="show('s-matches')">Demo: See matches</button>
+  </div>
+  <p style="color:#4a6280;font-size:.75rem;margin-top:1rem">Already have an account? <span style="color:#a0b4c8;cursor:pointer;text-decoration:underline" onclick="show('s-matches')">Sign in</span></p>
+</div>
+
+<!-- SIGNUP -->
+<div id="s-signup" class="screen">
+  <div class="form-card">
+    <div class="form-title">Create your profile</div>
+    <div class="form-sub">Takes 3 minutes. Saves months of regret.</div>
+    <div class="row2">
+      <div class="field"><label>First name</label><input placeholder="Alex" /></div>
+      <div class="field"><label>Last name</label><input placeholder="Kumar" /></div>
+    </div>
+    <div class="field"><label>Email</label><input type="email" placeholder="alex@email.com" /></div>
+    <div class="field"><label>Password</label><input type="password" placeholder="••••••••" /></div>
+    <div class="row2">
+      <div class="field"><label>Age</label><input type="number" placeholder="24" /></div>
+      <div class="field"><label>Gender</label>
+        <select><option>Prefer not to say</option><option>Male</option><option>Female</option><option>Non-binary</option></select>
+      </div>
+    </div>
+    <div class="field"><label>City looking in</label><input placeholder="Mumbai, Delhi, Bengaluru…" /></div>
+    <div class="field"><label>I am a</label>
+      <select><option>College student</option><option>Working professional</option><option>Freelancer / self-employed</option><option>Other</option></select>
+    </div>
+    <button class="btn-primary" style="width:100%;margin-top:.5rem" onclick="show('s-quiz')">Continue to lifestyle quiz →</button>
+    <div class="signup-foot">Already have an account? <a onclick="show('s-matches')">Sign in</a></div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="s-quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog" style="width:5%"></div></div>
+    <div class="q-section-label" id="q-section"></div>
+    <div class="q-text" id="q-text"></div>
+    <div id="q-body"></div>
+    <div class="nav-row">
+      <span class="q-count" id="q-count"></span>
+      <button class="btn-back" id="btn-back" onclick="prevQ()">← Back</button>
+      <button class="btn-next" id="btn-next" onclick="nextQ()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- MATCHES -->
+<div id="s-matches" class="screen">
+  <div class="matches-wrap">
+    <div class="matches-header">
+      <div class="matches-title">Your top matches</div>
+      <div class="matches-sub">Ranked by lifestyle compatibility</div>
+    </div>
+    <div id="match-list"></div>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div id="s-detail" class="screen">
+  <div class="detail-wrap">
+    <div class="back-link" onclick="show('s-matches')">← Back to matches</div>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {section:"Sleep & Schedule", q:"What time do you usually wake up?", type:"options", opts:["Before 6 AM","6–7:30 AM","7:30–9 AM","After 9 AM"], key:"wake"},
+  {section:"Sleep & Schedule", q:"What time do you go to bed on weeknights?", type:"options", opts:["Before 10 PM","10 PM–12 AM","12–2 AM","After 2 AM"], key:"sleep"},
+  {section:"Sleep & Schedule", q:"How light a sleeper are you?", type:"scale", low:"Very heavy sleeper", high:"Extremely light sleeper", key:"sleep_sensitivity"},
+  {section:"Cleanliness", q:"How often do you clean common areas?", type:"options", opts:["Daily","Every 2–3 days","Once a week","When it looks dirty"], key:"clean_freq"},
+  {section:"Cleanliness", q:"How would you describe your personal cleanliness standard?", type:"scale", low:"Relaxed — lived-in is fine", high:"Spotless at all times", key:"clean_standard"},
+  {section:"Cleanliness", q:"How do you handle dirty dishes?", type:"options", opts:["Wash immediately after use","Within a few hours","End of day","When the sink fills up"], key:"dishes"},
+  {section:"Social & Noise", q:"How often do you have guests/friends over?", type:"options", opts:["Rarely or never","Once or twice a month","Every week","Multiple times a week"], key:"guests"},
+  {section:"Social & Noise", q:"How comfortable are you with noise during the day?", type:"scale", low:"Need it very quiet", high:"Loud is totally fine", key:"noise_day"},
+  {section:"Social & Noise", q:"Parties or gatherings at home — your take?", type:"options", opts:["Absolutely no parties","Occasionally is fine","Love a good gathering","The more the merrier"], key:"parties"},
+  {section:"Social & Noise", q:"Do you work or study from home?", type:"options", opts:["Full-time from home","Mostly from home","Sometimes","Rarely/never"], key:"wfh"},
+  {section:"Kitchen & Cooking", q:"How often do you cook at home?", type:"options", opts:["Every day","A few times a week","Rarely","Never"], key:"cook_freq"},
+  {section:"Kitchen & Cooking", q:"Are you open to sharing groceries or splitting cooking?", type:"options", opts:["Yes, love shared cooking!","Sometimes, case by case","Prefer to keep things separate","Strongly prefer separate"], key:"grocery_share"},
+  {section:"Kitchen & Cooking", q:"How important is a clean kitchen to you?", type:"scale", low:"Not a dealbreaker", high:"Non-negotiable for me", key:"kitchen_clean"},
+  {section:"Lifestyle & Habits", q:"Do you smoke?", type:"options", opts:["No","Outdoors only","Sometimes indoors","Yes, regularly"], key:"smoke"},
+  {section:"Lifestyle & Habits", q:"Do you have or plan to get pets?", type:"options", opts:["No pets","I have a pet","Thinking about it","Love pets, fine either way"], key:"pets"},
+  {section:"Lifestyle & Habits", q:"How introverted or extroverted are you at home?", type:"scale", low:"Very introverted — I need alone time", high:"Very social — let's hang out!", key:"social_energy"},
+  {section:"Lifestyle & Habits", q:"Do you drink alcohol at home?", type:"options", opts:["Never","Occasionally","Regularly","Prefer not to share this"], key:"alcohol"},
+  {section:"Work & Study", q:"What are your noisiest hours at home?", type:"options", opts:["Morning (6–10 AM)","Afternoon (12–5 PM)","Evening (5–10 PM)","Late night (10 PM+)"], key:"noisy_hours"},
+  {section:"Finances & Space", q:"How do you prefer to split household expenses?", type:"options", opts:["Equally down the middle","Proportional to usage","Whoever uses it pays","Flexible, discuss as needed"], key:"expenses"},
+  {section:"Finances & Space", q:"How do you feel about borrowing/sharing belongings?", type:"options", opts:["Fine with most things","Ask first, then fine","Prefer to keep things separate","Absolutely no sharing"], key:"sharing"},
+  {section:"Boundaries & Communication", q:"If there's a conflict with your roommate, what's your style?", type:"options", opts:["Talk it out directly ASAP","Give it a day, then talk","Drop hints and hope it resolves","Avoid conflict at all costs"], key:"conflict"},
+  {section:"Boundaries & Communication", q:"How much notice do you like before guests come over?", type:"options", opts:["Always discuss in advance","A few hours is fine","Same day is okay","No notice needed"], key:"guest_notice"},
+];
+
+let cur = 0;
+const answers = {};
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='s-quiz') renderQ();
+  if(id==='s-matches') renderMatches();
+}
+
+function renderQ(){
+  const q = questions[cur];
+  document.getElementById('prog').style.width = Math.round((cur/questions.length)*100+5)+'%';
+  document.getElementById('q-section').textContent = q.section;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-count').textContent = (cur+1)+' / '+questions.length;
+  document.getElementById('btn-back').style.display = cur===0?'none':'block';
+  const body = document.getElementById('q-body');
+  if(q.type==='options'){
+    body.innerHTML = '<div class="options-grid">'+q.opts.map((o,i)=>`<button class="opt${answers[q.key]===i?' selected':''}" onclick="pick(${i})">${o}</button>`).join('')+'</div>';
+  } else {
+    const val = answers[q.key]??null;
+    body.innerHTML = `<div class="scale-row">${[1,2,3,4,5].map(n=>`<button class="scale-btn${val===n?' selected':''}" onclick="pickScale(${n})">${n}</button>`).join('')}</div><div class="scale-labels"><span>${q.low}</span><span>${q.high}</span></div>`;
+  }
+  checkNext();
+}
+
+function pick(i){
+  answers[questions[cur].key]=i;
+  document.querySelectorAll('.opt').forEach((o,idx)=>o.classList.toggle('selected',idx===i));
+  checkNext();
+  setTimeout(()=>nextQ(),350);
+}
+
+function pickScale(n){
+  answers[questions[cur].key]=n;
+  document.querySelectorAll('.scale-btn').forEach((b,idx)=>b.classList.toggle('selected',idx+1===n));
+  checkNext();
+  setTimeout(()=>nextQ(),350);
+}
+
+function checkNext(){
+  document.getElementById('btn-next').disabled = answers[questions[cur].key]===undefined;
+}
+
+function nextQ(){
+  if(answers[questions[cur].key]===undefined) return;
+  if(cur<questions.length-1){cur++;renderQ();}
+  else{show('s-matches');}
+}
+function prevQ(){if(cur>0){cur--;renderQ();}}
+
+const profiles = [
+  {name:"Priya Sharma",age:24,occ:"UX Designer",city:"Bengaluru",initials:"PS",color:"#1D9E75",colorBg:"#E1F5EE",colorText:"#085041",
+   cats:{sleep:92,cleanliness:88,social:78,kitchen:95,lifestyle:80,finance:90},
+   mismatches:["Priya prefers guests only on weekends; you're more flexible","She's a light sleeper — you might need to keep late-night noise down"],
+   tags:["Early riser","Very tidy","No smoking","Vegetarian cook","WFH sometimes"]},
+  {name:"Rohan Verma",age:27,occ:"Software Engineer",city:"Bengaluru",initials:"RV",color:"#185FA5",colorBg:"#E6F1FB",colorText:"#0C447C",
+   cats:{sleep:70,cleanliness:82,social:90,kitchen:74,lifestyle:88,finance:85},
+   mismatches:["Rohan is a night owl — sleeps past 1 AM","He's okay with occasional parties; you may need to agree on frequency"],
+   tags:["Night owl","Social butterfly","Pet-friendly","Minimal cook","WFH full-time"]},
+  {name:"Anika Singh",age:22,occ:"MBA Student",city:"Delhi",initials:"AS",color:"#D85A30",colorBg:"#FAECE7",colorText:"#712B13",
+   cats:{sleep:85,cleanliness:72,social:80,kitchen:68,lifestyle:78,finance:76},
+   mismatches:["Anika's kitchen cleanliness standards differ — she washes dishes by end of day","She's building her budget — prefer proportional expense splitting"],
+   tags:["Morning person","Moderate tidiness","Cooks occasionally","Non-smoker","Gym routine"]},
+  {name:"Kavya Nair",age:25,occ:"Content Creator",city:"Mumbai",initials:"KN",color:"#993556",colorBg:"#FBEAF0",colorText:"#72243E",
+   cats:{sleep:60,cleanliness:90,social:68,kitchen:85,lifestyle:72,finance:82},
+   mismatches:["Kavya keeps irregular hours — WFH on unpredictable schedule","She's an introvert and needs significant alone time at home"],
+   tags:["Night owl","Spotless kitchen","Solo cook","Indoor cat person","Quiet vibes"]},
+];
+
+function overallScore(p){
+  const vals = Object.values(p.cats);
+  return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+}
+
+function scoreColor(s){
+  if(s>=85) return {fill:'#1D9E75',bar:'#1D9E75'};
+  if(s>=70) return {fill:'#BA7517',bar:'#BA7517'};
+  return {fill:'#E24B4A',bar:'#E24B4A'};
+}
+
+function renderMatches(){
+  const list = document.getElementById('match-list');
+  const sorted = [...profiles].sort((a,b)=>overallScore(b)-overallScore(a));
+  list.innerHTML = sorted.map(p=>{
+    const s = overallScore(p);
+    const {fill} = scoreColor(s);
+    const catNames = {sleep:'Sleep',cleanliness:'Cleanliness',social:'Social',kitchen:'Kitchen',lifestyle:'Lifestyle',finance:'Finances'};
+    const topMatch = Object.entries(p.cats).sort((a,b)=>b[1]-a[1])[0];
+    const topMiss = Object.entries(p.cats).sort((a,b)=>a[1]-b[1])[0];
+    return `<div class="match-card" onclick="showDetail('${p.name}')">
+      <div style="display:flex;align-items:center;gap:.85rem">
+        <div class="avatar" style="background:${p.colorBg};color:${p.colorText}">${p.initials}</div>
+        <div class="match-info">
+          <div class="match-name">${p.name}</div>
+          <div class="match-meta">${p.age} · ${p.occ} · ${p.city}</div>
+        </div>
+        <div class="score-badge" style="color:${fill}">${s}%</div>
+      </div>
+      <div class="score-bar-bg"><div class="score-bar-fill" style="width:${s}%;background:${fill}"></div></div>
+      <div class="tags-row">
+        <span class="tag tag-match">✓ ${catNames[topMatch[0]]}: ${topMatch[1]}%</span>
+        <span class="tag tag-mismatch">✗ ${catNames[topMiss[0]]}: ${topMiss[1]}%</span>
+        ${p.mismatches.length>1?`<span class="tag tag-ok">${p.mismatches.length} diff areas</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showDetail(name){
+  const p = profiles.find(x=>x.name===name);
+  const s = overallScore(p);
+  const {fill} = scoreColor(s);
+  const catNames = {sleep:'Sleep & Schedule',cleanliness:'Cleanliness',social:'Social & Noise',kitchen:'Kitchen',lifestyle:'Lifestyle',finance:'Finances'};
+  const catColors = {
+    s=>s>=85?'#1D9E75':s>=70?'#BA7517':'#E24B4A'
+  };
+  const barColor = s2=>s2>=85?'#1D9E75':s2>=70?'#BA7517':'#E24B4A';
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-hero">
+      <div class="detail-avatar" style="background:${p.colorBg};color:${p.colorText}">${p.initials}</div>
+      <div class="detail-name">${p.name}</div>
+      <div class="detail-meta">${p.age} yrs · ${p.occ} · ${p.city}</div>
+      <div class="big-score" style="color:${fill}">${s}%</div>
+      <div class="score-label">compatibility score</div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">Category breakdown</div>
+      ${Object.entries(p.cats).map(([k,v])=>`
+        <div class="cat-row">
+          <div class="cat-label">${catNames[k]}</div>
+          <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${v}%;background:${barColor(v)}"></div></div>
+          <div class="cat-pct" style="color:${barColor(v)}">${v}%</div>
+        </div>`).join('')}
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">Where you don't match</div>
+      ${p.mismatches.map(m=>`<div class="mismatch-item"><div class="mismatch-dot"></div><div class="mismatch-text">${m}</div></div>`).join('')}
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">Lifestyle tags</div>
+      <div class="tags-row">${p.tags.map(t=>`<span class="tag tag-ok">${t}</span>`).join('')}</div>
+    </div>
+
+    <button class="connect-btn" onclick="alert('Connection request sent to ${p.name}! 🎉')">Send connection request</button>
+  `;
+  show('s-detail');
+}
+</script>
